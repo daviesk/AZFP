@@ -7,7 +7,7 @@
 % 
 % addpath(genpath('/Users/mpearson/Documents/AZFP MATLAB Toolbox_1/newest_versions/IN_USE/gosl'))
 
-test
+test nr 2
 
 % don't need to add these separately because it is inside gosl
 % addpath(genpath('/Users/mpearson/Documents/AZFP MATLAB Toolbox_1/newest_versions/IN_USE/gosl/m_map'))
