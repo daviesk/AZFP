@@ -12,6 +12,8 @@
 % addpath(genpath('/Users/mpearson/Documents/AZFP MATLAB Toolbox_1/newest_versions/IN_USE/gosl/cmocean_v1'))
 % % 
 
+test nr 3
+
 tic
 
 % % --------------------
