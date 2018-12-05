@@ -1,5 +1,9 @@
 function [Output,Par] = ProcessAZFP(Parameters)
 
+% KDavies 5 Dec 2018.  Line 145-146 for loop will 'break' if there are
+% empty data files (.01A, .01B, .01C, .01D).  These must be removed from
+% directory for this code to function.
+
 % ProcessAZFP.m run as:
 % [Output,Par] = ProcessAZFP(Parameters);
 % 
@@ -152,7 +156,7 @@ for(ii=1:numfiles)
             Output(jj).TS = [];   
             Output(jj).seaAbs = [];
         else
-            % if DataOut(jj).N has a differnet number of columns compared to
+            % if DataOut(jj).N has a different number of columns compared to
             % the previous file (stored in Output(jj).N) then catch this and
             % return an error
             if(size(DataOut(jj).N,2) ~= size(Output(jj).N,2))

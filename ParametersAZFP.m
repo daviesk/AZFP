@@ -27,7 +27,7 @@ Parameters.xmlfilename = '';
 Parameters.Salinity = 30;
 
 % Parameters.Bins2Avg = 10; % number of range bins to average
-Parameters.Bins2Avg = 1;
+Parameters.Bins2Avg = 15; % Approx. 0.5 m range bin
 
 % Parameters.Time2Avg = 60; % number of time values to average
 Parameters.Time2Avg = 1;
@@ -42,7 +42,7 @@ Parameters.Pressure = 50;
 Parameters.Plot = 1;
 
 % Parameters.Channel: freq to plot #1-4, default 1
-Parameters.Channel = 1;
+Parameters.Channel = 2;
 
 % Parameters.Value2Plot = 2; 1,2,3,4 = Counts, Sv, TS, Temperature/Tilts, default 2
 Parameters.Value2Plot = 2;

@@ -17,8 +17,17 @@ tic
 % % --------------------
 % runs AZFP toolbox and gets some of its Output data, i.e. volume
 % backscatter and bin ranges
+clear
 ParametersAZFP;
 [Output,Par]=ProcessAZFP(Parameters); % code can handle 3-4 days of data at a time
+% if range averaging, there is an indexing bug on channels 2-4.  This removes
+% the bad data (but doesn't fix the bug!)
+ii=find(Output(2).N(:,1)<-1000000);
+for kk=2:4
+    Output(kk).N(ii,:)=[];
+    Output(kk).TS(ii,:)=[];
+    Output(kk).Sv(ii,:)=[];
+end;
 
 azfp_time=Output(1).Date;
 echoSv1=Output(1).Sv;
@@ -34,10 +43,14 @@ range2=Output(2).Range;range2=range2(1,:);
 
 % saves time,echo,range for all frequencies
 % echoSv3 echoSv4 range3 range4
-save '/Users/mpearson/Documents/AZFP MATLAB Toolbox_1/newest_versions/IN_USE/gosl/echo11.mat' ...
-azfp_time echoSv1 echoSv2 echoTS1 echoTS2 range1 range2
+%save '/Users/mpearson/Documents/AZFP MATLAB Toolbox_1/newest_versions/IN_USE/gosl/echo11.mat' ...
+%azfp_time echoSv1 echoSv2 echoTS1 echoTS2 range1 range2
+
+save('echo11.mat','azfp_time','echoSv1','echoSv2','echoTS1','echoTS2','range1','range2')
+
+
 % 
-cd ../../..
+%cd ../../..
 % 
 % % --------------------
 % works on CTD data through its own routine ctd.m
@@ -122,8 +135,8 @@ hold off
 
 %% find indices location of max counts for bottom detection, start at index 10 so it skips the area near transducer
 % to eliminate from plots all stuff below seafloor
-[~,loc]=max(echoSv(:,10:end),[],2);
-ExtraY=50; % extra bins to plot beyond bottom % for echo5.mat -> ExtraY=15, otherwise 50
+[~,loc]=max(echoSv(:,10:end),[],2); % why 10?
+ExtraY=9; % extra bins to plot beyond bottom % for echo5.mat -> ExtraY=15, otherwise 50
 BottomLoc=loc+ExtraY;
 [n,l]=max(BottomLoc); % this is to accomodate all different "depths" of profiles <o> in the original one n was BottomLoc(1)
 
@@ -131,7 +144,7 @@ rot_Sv=nan(size(echoSv,1),n);
 rot_depth=nan(size(echoSv,1),n);
 rot_time=nan(size(echoSv,1),n);
 
-tmp_depth=glider_depth*ones(1,n)+ones(length(glider_depth),1)*bin_depth(1:n);
+tmp_depth=glider_depth*ones(1,n)+ones(length(glider_depth),1)*bin_depth(1:n);  % dont understand this line.  BUG HERE!! bin_depth(1:n);
 tmp_time=repmat(azfp_time,[1,n]);
 
 % % sanity check
@@ -319,12 +332,16 @@ axis tight
 cmocean('balance')
 h2=colorbar; %('AxisLocation','in');
 ylabel(h2,'Volume backscatter Sv (dB re m^{-1})','FontSize',11);%,'Rotation',270.0)
+set(gca,'YLim',[15 90])
+caxis([-90 -50])
 
 % glider track
 figure
 % subplot(3,1,1)
 set(gcf,'color','w');
 m_proj('albers equal-area','lat',[47.25 48],'long',[-65 -63],'rect','off');
+[C,h]=m_etopo2('contour',[-25 -50 -75 -100 -125],'edgecolor',[0.8 0.8 0.8]) 
+clabel(C,h)
 % m_elev('contour',[-80:1:-5],'edgecolor','b'); % add some bathymetry when possible
 h3=m_line(ctd_lon,ctd_lat,'marker','o','color',[0 0 0],...
           'linest','none','markerfacecolor','w','clip','point'); 

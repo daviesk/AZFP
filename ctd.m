@@ -10,6 +10,7 @@ close all
 %loads data 
 % ctd_data=load('ctd_87.mat');
 filename=load('ctd_id_87_delayed.mat');
+
 StrName=fieldnames(filename);
 StrName=StrName{1};
 
@@ -151,8 +152,9 @@ ctd_depth=ctd_depth(ind_down);
 ctd_lat=ctd_lat(ind_down);
 ctd_lon=ctd_lon(ind_down);
     
-    save '/Users/mpearson/Documents/AZFP MATLAB Toolbox_1/newest_versions/IN_USE/gosl/ctd4azfp.mat'...
-        id ctd_time ctd_depth ctd_lat ctd_lon
+    %save '/Users/mpearson/Documents/AZFP MATLAB Toolbox_1/newest_versions/IN_USE/gosl/ctd4azfp.mat'...
+        
+save('ctd4azfp.mat','id', 'ctd_time', 'ctd_depth', 'ctd_lat', 'ctd_lon')
 
 % ups_downs=glider_profiler(cat(2,filename.(StrName).time,...
 %     filename.(StrName).temperature,filename.(StrName).salinity,...
